@@ -18,7 +18,8 @@ function* pseudoRandom(seed) {
 
 const sketch = new p5((p) => {
   const state = {
-    loading: true
+    showMessage: true,
+    message: 'Loading...'
   }
 
   p.preload = () => {
@@ -29,8 +30,24 @@ const sketch = new p5((p) => {
         const params = new URLSearchParams(paramsString)
         const seed = params.has('seed') ? params.get('seed') : Math.random()
 
+        if(!results.ok) {
+          state.showMessage = true
+          state.message = 'Fetch not Ok: ' + results.statusText
+
+          sketch.loop()
+          return
+        }
+
         const data = await results.json()
         const item = data.seeds.find(s => s.name === seed)
+
+        if(item === undefined) {
+          state.showMessage = true
+          state.message = 'Missing seed key'
+
+          sketch.loop()
+          return
+        }
 
         const depth = item.depth ?? data.depth
 
@@ -57,7 +74,7 @@ const sketch = new p5((p) => {
         }
 
         sketch.background(sketch.color(200, 200, 200))
-        state.loading = false
+        state.showMessage = false
         sketch.loop()
       })
       .catch(e => console.error(e))
@@ -71,7 +88,7 @@ const sketch = new p5((p) => {
 
   p.draw = () => {
 
-    if(state.loading) {
+    if(state.showMessage) {
       sketch.background(sketch.color(42, 42, 42))
 
       sketch.textSize(25)
@@ -80,12 +97,13 @@ const sketch = new p5((p) => {
 
       sketch.stroke('white')
       sketch.fill('white')
-      sketch.text('loading...', sketch.width / 2, sketch.height / 2)
+      // this seems to not do exactly what it sais it supposed to do ... shift left needed
+      // subtract half the width of the text, isn't the a rectMode CENTER ?!
+      sketch.text(state.message, sketch.width / 2, sketch.height / 2)
+
+      sketch.noLoop()
       return
     }
-
-    console.log('Finished Loading ...', sketch.frameCount, state.walk.length)
-    //sketch.background(sketch.color(200, 200, 200))
 
     const idx = sketch.frameCount
     if(idx >= state.walk.length) {
@@ -94,19 +112,20 @@ const sketch = new p5((p) => {
       return
     }
 
+
+    // lets pick a single item per-frame
     const [ x, y ] = state.walk[idx]
 
-
+    // we could have just iter the entire walk
+    // per frame, or added a per frame animation to
+    // each pixel (aka, color shift etc...)
     // state.walk.forEach(([ x, y ]) => {
 
       sketch.fill('red')
       sketch.stroke('black')
-      //sketch.strokeWidth(2)
       sketch.ellipse(sketch.width / 2 + x, sketch.height / 2 + y, 1,1)
 
     // })
-
-
 
     //sketch.noLoop()
   }
