@@ -1,0 +1,6 @@
+{
+ "seeds": [
+  { "name": "foo", "seed": 12345 },
+  { "name": "bar", "seed": 54321 }
+ ]
+}
