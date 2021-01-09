@@ -1,6 +1,7 @@
 {
+ "depth": 100000,
  "seeds": [
-  { "name": "foo", "seed": 12345 },
+  { "name": "foo", "seed": 12345, "depth": 200 },
   { "name": "bar", "seed": 54321 }
  ]
 }
