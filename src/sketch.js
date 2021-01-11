@@ -23,11 +23,11 @@ export const sketch = new p5((p) => {
   // code should be rewritten to comply.
   // unfortunatly most p5 also implements its api this direction thus making
   // all of this a bit easyer this way
-  let iter
+  let iter // 🤦🏻‍♂️ this, see above, and also should be curried into the bellow algo object
   const algos = {
     'pseudoRandom': {
       seedrandom: seed => iter = pseudoRandom(seed),
-      random: () => iter.next().value / 2147483647
+      random: () => iter.next().value / 2147483647 // todo what, like what, a guess at normalizing
     },
     'davidBau': {
       seedrandom: seed => DavidBauMath.seedrandom(seed),
@@ -46,9 +46,10 @@ export const sketch = new p5((p) => {
     showStats: true,
     splashBackground: false,
     messages: ['__init__'],
-    dotSize: 2,
+    dotSize: 1,
     startTime: Date.now(),
     imageCache: {}
+
   }
 
   p.preload = () => {
@@ -135,11 +136,16 @@ export const sketch = new p5((p) => {
         }
         console.log('end walk generation')
 
+        // pre-cache some vars
+        const minX = state.walk.reduce((min, cur) => Math.min(cur, min), -Infinity)
+        console.log()
+
         state.messages = []
 
       })
       .then(() => {
 
+        // todo move out into a promise that can be forgoten by others
         const img = state.imageCache['background']
 
         const originX = Math.trunc(img.width / 2)
@@ -254,7 +260,6 @@ export const sketch = new p5((p) => {
     const [ x, y ] = state.walk[idx]
     const [ px, py ] = state.walk[idx - 1]
 
-
     sketch.stroke('black')
     sketch.fill('black')
     sketch.ellipse(originX + px, originY + py, state.dotSize, state.dotSize)
@@ -275,7 +280,7 @@ export const sketch = new p5((p) => {
       sketch.fill('white')
       sketch.textSize(12)
 
-      sketch.text(Math.trunc(sketch.frameRate()) + ' fps', 15, 15)
+      sketch.text('⚡️' + Math.trunc(sketch.frameRate()) + ' fps', 15, 15)
       sketch.text(Math.trunc((now - state.startTime) / 1000) + ' ⏱', 100, 15)
 
       sketch.textSize(9)
