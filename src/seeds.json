@@ -8,6 +8,5 @@
 
   { "name": "qix", "seed": 12345, "depth": 10000000 },
   { "name": "qac", "seed": 54321, "depth": 10000000 }
-
  ]
 }
