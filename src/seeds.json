@@ -1,7 +1,14 @@
 {
- "depth": 100000,
+ "depth": 1000000,
  "seeds": [
-  { "name": "foo", "seed": 12345, "depth": 200 },
-  { "name": "bar", "seed": 54321 }
+  { "name": "foo", "seed": 12345, "depth": 2000 },
+  { "name": "bar", "seed": 54321, "algo": "davidBau" },
+
+  { "name": "biz", "seed": 12345, "depth": 2000, "algo": "pseudoRandom"},
+  { "name": "bang", "seed": 12345, "depth": 2000, "algo": "davidBau"},
+
+  { "name": "qix", "seed": 54321, "depth": 100000 },
+  { "name": "qak", "seed": 54321, "depth": 10000000 }
+
  ]
 }
