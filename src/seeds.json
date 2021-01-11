@@ -1,14 +1,13 @@
 {
- "depth": 1000000,
+ "algo": "p5",
  "seeds": [
-  { "name": "foo", "seed": 12345, "depth": 2000 },
-  { "name": "bar", "seed": 54321, "algo": "davidBau" },
+  { "name": "foo", "seed": 12345, "depth": 20000 },
+  { "name": "bar", "seed": 12345, "depth": 20000, "algo": "davidBau" },
+  { "name": "biz", "seed": 12345, "depth": 20000, "algo": "pseudoRandom"},
+  { "name": "bang", "seed": 12345, "depth": 200000 },
 
-  { "name": "biz", "seed": 12345, "depth": 2000, "algo": "pseudoRandom"},
-  { "name": "bang", "seed": 12345, "depth": 2000, "algo": "davidBau"},
-
-  { "name": "qix", "seed": 54321, "depth": 100000 },
-  { "name": "qak", "seed": 54321, "depth": 10000000 }
+  { "name": "qix", "seed": 12345, "depth": 10000000 },
+  { "name": "qac", "seed": 54321, "depth": 10000000 }
 
  ]
 }
